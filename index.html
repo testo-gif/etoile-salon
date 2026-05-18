@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Étoile Salon — Bologna</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--purple:#c084fc;--dark:#1a1a1a;--light:#faf9f7}
+body{font-family:'Inter',sans-serif;background:var(--light);color:var(--dark)}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif}
+#buy-banner{position:fixed;top:0;left:0;width:100%;background:#000;color:#fff;z-index:9999;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#buy-banner p{font-size:14px}
+#buy-banner a{background:#ff4d00;color:#fff;text-decoration:none;padding:8px 18px;border-radius:4px;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+@media(max-width:600px){#buy-banner .dt{display:none}}
+@media(min-width:601px){#buy-banner .mob{display:none}}
+.hero{height:100vh;background:url('https://maps.googleapis.com/maps/api/place/photo?maxwidth=1920&photoreference=Ab43m-tDHS8QVVaY3OtwBFYUjOZXXOTp4TMCKNry5LUVmCGwvU4xPalqlgPVGkyW6CdRJbfQVI-rD8SQhKn6yLHwFolFtMPh_MU7Xci-z14NM-Mzc8WaOHIXxHxsl0EKVZTi1fsQkQPFOiJqZHyFd0KPlquaBo8gf5uLGkd19nTIlBg91OzOWwswDMxsgrCET6cfM4zOjoMA-0RNgGYLOfFXEruK6H_D78JC-lmvCv0Db0PGIefEOk6pweYSYrc_h2jWUmZZku900GJhzBG_yti6VdYfOdE29usfd3o2Un1RzikKoQ&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM') center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:44px}
+.hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.48)}
+.hero-c{position:relative;z-index:1;color:#fff;padding:0 20px}
+.hero-c h1{font-size:clamp(2.2rem,6vw,5rem);font-weight:300;letter-spacing:.04em}
+.hero-c p{font-size:1.05rem;margin-top:10px;opacity:.9}
+.hero-c .stars{margin-top:14px;font-size:1.1rem;color:#ffd700}
+.hero-c a.cta{display:inline-block;margin-top:24px;padding:13px 34px;background:var(--purple);color:#fff;text-decoration:none;border-radius:2px;font-size:.95rem;letter-spacing:.06em}
+.numeri{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:3px solid var(--purple)}
+@media(max-width:600px){.numeri{grid-template-columns:repeat(2,1fr)}}
+.num{padding:36px 16px;text-align:center;border-right:1px solid #eee}
+.num:last-child{border-right:none}
+.num span{display:block;font-family:'Cormorant Garamond',serif;font-size:2.8rem;color:var(--purple);font-weight:300}
+.num p{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:#666;margin-top:5px}
+.sec{padding:72px 5% 56px}
+.sec-t{font-size:clamp(1.8rem,4vw,3rem);font-weight:300;text-align:center;margin-bottom:10px}
+.sec-s{text-align:center;color:#666;font-size:.92rem;margin-bottom:44px}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;max-width:1100px;margin:0 auto}
+.sc{background:#fff;padding:30px;border-radius:3px;border-left:3px solid var(--purple);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.sc h3{font-size:1.25rem;font-weight:400;margin-bottom:8px}
+.sc p{color:#666;font-size:.88rem;line-height:1.6;margin-bottom:14px}
+.sc .price{font-size:1.35rem;color:var(--purple);font-family:'Cormorant Garamond',serif}
+.about{background:#fff;padding:72px 5%}
+.about-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+@media(max-width:768px){.about-in{grid-template-columns:1fr}}
+.about-imgs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.about-imgs img{width:100%;height:190px;object-fit:cover;border-radius:2px}
+.about-imgs img:first-child{grid-column:1/-1;height:240px}
+.about-t h2{font-size:2.2rem;font-weight:300;margin-bottom:18px}
+.about-t p{color:#555;line-height:1.8;margin-bottom:14px}
+.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+@media(max-width:600px){.gallery{grid-template-columns:repeat(2,1fr)}}
+.gallery img{width:100%;height:200px;object-fit:cover}
+.testi{background:var(--purple);padding:72px 5%;color:#fff}
+.testi .sec-t{color:#fff}
+.testi .sec-s{color:rgba(255,255,255,.8)}
+.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;max-width:1000px;margin:0 auto}
+.tc{background:rgba(255,255,255,.12);padding:26px;border-radius:3px}
+.tc p{font-style:italic;line-height:1.7;margin-bottom:14px;font-family:'Cormorant Garamond',serif;font-size:1.05rem}
+.tc .name{font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.tc .stars{color:#ffd700;margin-bottom:8px}
+.orari{background:#fff;padding:72px 5%}
+.orari table{width:100%;max-width:560px;border-collapse:collapse;margin:28px auto 0}
+.orari td{padding:13px 0;border-bottom:1px solid #eee;font-size:.92rem}
+.orari td:last-child{text-align:right;color:var(--purple)}
+.faq{padding:72px 5%;background:var(--light)}
+.faq-in{max-width:780px;margin:0 auto}
+details{border-bottom:1px solid #e0e0e0;padding:18px 0}
+details summary{font-size:1rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::after{content:'+';font-size:1.3rem;color:var(--purple)}
+details[open] summary::after{content:'−'}
+details p{color:#555;line-height:1.7;margin-top:12px;font-size:.92rem}
+#map{height:380px;width:100%}
+.contatti{background:#1a1a1a;color:#fff;padding:56px 5%;text-align:center}
+.contatti h2{font-size:1.9rem;font-weight:300;margin-bottom:8px}
+.contatti p{color:#aaa;margin-bottom:5px}
+.contatti a{color:var(--purple);text-decoration:none}
+footer{background:#111;color:#666;text-align:center;padding:22px;font-size:.78rem}
+footer a{color:#888;cursor:pointer}
+.wa{position:fixed;bottom:22px;right:22px;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:24px;box-shadow:0 4px 16px rgba(37,211,102,.4);z-index:8888}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;align-items:center;justify-content:center}
+.modal.open{display:flex}
+.modal-box{background:#fff;padding:36px;max-width:580px;width:90%;max-height:80vh;overflow-y:auto;border-radius:3px}
+.modal-box h3{margin-bottom:14px;font-size:1.5rem;font-weight:300}
+.modal-box p{color:#555;line-height:1.7;font-size:.88rem;margin-bottom:8px}
+.modal-close{float:right;background:none;border:1px solid #ccc;padding:5px 12px;cursor:pointer;border-radius:2px}
+</style>
+</head>
+<body>
+<div id="buy-banner">
+  <p class="dt">Ti piace questo sito? Il tuo potrebbe essere identico — online in 5 giorni per €99</p>
+  <p class="mob">Vuoi un sito così? €99</p>
+  <a href="https://buy.stripe.com/8x25kC7mo39M0bN1Mv1B601" target="_blank">Inizia ora →</a>
+</div>
+<section class="hero">
+  <div class="hero-c">
+    <h1>Étoile Salon</h1>
+    <p>Str. Maggiore, 5 · Bologna</p>
+    <div class="stars">★★★★½ 4.8 · 95 recensioni Google</div>
+    <a href="https://wa.me/390513511517" class="cta" target="_blank">Prenota su WhatsApp</a>
+  </div>
+</section>
+<div class="numeri">
+  <div class="num"><span>4.8</span><p>Rating Google</p></div>
+  <div class="num"><span>95</span><p>Recensioni</p></div>
+  <div class="num"><span>15+</span><p>Anni esperienza</p></div>
+  <div class="num"><span>Bologna</span><p>Città</p></div>
+</div>
+<section class="sec" style="background:var(--light)">
+  <h2 class="sec-t">I Nostri Servizi</h2>
+  <p class="sec-s">Trattamenti professionali per ogni esigenza</p>
+  <div class="services">
+    <div class="sc"><h3>Taglio Donna</h3><p>Taglio su misura con consulenza personalizzata.</p><div class="price">da €35</div></div>
+    <div class="sc"><h3>Colore & Meches</h3><p>Colorazioni professionali con prodotti di alta qualità.</p><div class="price">da €55</div></div>
+    <div class="sc"><h3>Piega & Styling</h3><p>Piega professionale per ogni occasione.</p><div class="price">da €20</div></div>
+    <div class="sc"><h3>Trattamenti Capelli</h3><p>Maschere nutrienti, cheratina e ricostruzione.</p><div class="price">da €30</div></div>
+    <div class="sc"><h3>Taglio Uomo</h3><p>Taglio classico o moderno con finiture impeccabili.</p><div class="price">da €20</div></div>
+    <div class="sc"><h3>Acconciature Sposa</h3><p>Acconciature per matrimoni ed eventi speciali.</p><div class="price">da €80</div></div>
+  </div>
+</section>
+<section class="about">
+  <div class="about-in">
+    <div class="about-imgs">
+      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-tDHS8QVVaY3OtwBFYUjOZXXOTp4TMCKNry5LUVmCGwvU4xPalqlgPVGkyW6CdRJbfQVI-rD8SQhKn6yLHwFolFtMPh_MU7Xci-z14NM-Mzc8WaOHIXxHxsl0EKVZTi1fsQkQPFOiJqZHyFd0KPlquaBo8gf5uLGkd19nTIlBg91OzOWwswDMxsgrCET6cfM4zOjoMA-0RNgGYLOfFXEruK6H_D78JC-lmvCv0Db0PGIefEOk6pweYSYrc_h2jWUmZZku900GJhzBG_yti6VdYfOdE29usfd3o2Un1RzikKoQ&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Salone" loading="lazy">
+      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-vjITYed6JDOguI7wbcw8OebHICSssWPFHrbrcOTRcWBRRt3LZgSTzdhR4z9GzNDPOF6JsJNJ6ucCELQyld0mA6Zr8_5FWioqXJIsyxaiZ8ZXNo6gT5gTrcnXfWo2yzhgC6uSXAEVTDapmiXoJ5eg8p7idN2YcsdVlu-oj7GFN0RpZwaVEKcSLfPnF-_HnpuZzLjbTugwsLjo69poJOtxHAZNLgTMGxJ-8ghMMF-TXcccb6bFdPfJb-LavgHkeFmOVtdwgWxMO_NEAZAIq1mYyjpRnxuKjKP8vRYkFuTjrMVA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Team" loading="lazy">
+      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-sa7m4a7HhkqK3WBU667F6TzhhSaQyI3rY_DONOFt7CNsIFmZOjy5Xsw5gbLlpRMqmwYCeTJntLC4ZQ4-CDRhPEaHnfwtxkNYaPwbaCBUgNA63KsLr05-Iqh6JcYwuaJDqgxWSpKGSMa88avqeZVC0jltdCIqJ-rlNbvhc8gJ0GxLvB9X_YoVJnnTsvLav04plFi_jJVdah7W-e9mvDsa2gqKgJXzOKwwh0ONHN0zIUDK1klD5IzRJocNUaEEo7sP0gAminoE4PTOBnnjgmkiKzF_2XQ7rklwx4Ni2ndcxJMzao6yRQMwVUNG3f2gkO6fca6KKs7a11rhTnvCiiqfDwAs8rGOBghOSKlT40yEmFKdYWHV6HyO0hpIsMM-ITBOJLklUiAyj7-ZYj6ek9MoPNPKCCzruZnIgXhtA6e3-E5JWU6e6-ps6ImqigtIrY&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Lavoro" loading="lazy">
+    </div>
+    <div class="about-t">
+      <h2>Chi Siamo</h2>
+      <p>Siamo un salone con oltre 15 anni di esperienza nel cuore di Bologna. La nostra passione per i capelli si riflette in ogni servizio.</p>
+      <p>Il nostro team si aggiorna costantemente sulle ultime tendenze per offrirti sempre il meglio.</p>
+      <p>Utilizziamo solo prodotti di qualità professionale, rispettosi dei capelli e dell'ambiente.</p>
+    </div>
+  </div>
+</section>
+<div class="gallery"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-vjITYed6JDOguI7wbcw8OebHICSssWPFHrbrcOTRcWBRRt3LZgSTzdhR4z9GzNDPOF6JsJNJ6ucCELQyld0mA6Zr8_5FWioqXJIsyxaiZ8ZXNo6gT5gTrcnXfWo2yzhgC6uSXAEVTDapmiXoJ5eg8p7idN2YcsdVlu-oj7GFN0RpZwaVEKcSLfPnF-_HnpuZzLjbTugwsLjo69poJOtxHAZNLgTMGxJ-8ghMMF-TXcccb6bFdPfJb-LavgHkeFmOVtdwgWxMO_NEAZAIq1mYyjpRnxuKjKP8vRYkFuTjrMVA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-sa7m4a7HhkqK3WBU667F6TzhhSaQyI3rY_DONOFt7CNsIFmZOjy5Xsw5gbLlpRMqmwYCeTJntLC4ZQ4-CDRhPEaHnfwtxkNYaPwbaCBUgNA63KsLr05-Iqh6JcYwuaJDqgxWSpKGSMa88avqeZVC0jltdCIqJ-rlNbvhc8gJ0GxLvB9X_YoVJnnTsvLav04plFi_jJVdah7W-e9mvDsa2gqKgJXzOKwwh0ONHN0zIUDK1klD5IzRJocNUaEEo7sP0gAminoE4PTOBnnjgmkiKzF_2XQ7rklwx4Ni2ndcxJMzao6yRQMwVUNG3f2gkO6fca6KKs7a11rhTnvCiiqfDwAs8rGOBghOSKlT40yEmFKdYWHV6HyO0hpIsMM-ITBOJLklUiAyj7-ZYj6ek9MoPNPKCCzruZnIgXhtA6e3-E5JWU6e6-ps6ImqigtIrY&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-uHxKkE5p2guMG4vr29ZtETmlU5BrNgD1bCUyWOSqvSCXltJkJzlf8-CXWY6NhvbhwROpIljWzPnmkPTwWszWc7m0IfxOrL76upLCiWTfvsvXttIrg93m24-Hd7jQjmbLuI9r4m1Jm3DC88hIdRkeg5HaNyMbaFVlBB0z0116V0Jip3VZy9Dr0p5811lfoenhDP5sBjkzWde_bZDV2_0nbTzKBexziMzc57vBQJ03zm1tT_3A37d9F-oe6xYLiVQ-7Hppl8Tq9-KMRzd6IItukuvGd2HNE96NQ0MmCY9uj86Q&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-s7_6Q5rGYPHxnDerLrx0oQtWgjDNOXOszYJ6L8hljz2RPfEuUJDxEVJtikE4Rw61CiqfYG6G0K3DXZM4Z80Dc5e2l3bLO_RvjfUfo_sfgAMBB4Wa9Kz-UIh35RxvC3ATQXTHLFTk6_zij_0moWSsyd55pBm3pfaKHKKDO-pXRGz0ajGDKUhBVnpA_EzO7lefE3FAosuP8KXMX03P8EGdv5RYZMZG0VAz9uww1rIY6LWHOaSMZV7lT6Aqru2Rl3tCw3Z21TpZzBC9UY32Jb7A1c5g_WUXdM9KUxvxO3H4k2vA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-vGOXuAc45-aTjTr6Bhv6ixse9Ej1Eah1McZc-NB9UKqur3BDxNu7GLeHM0s3syGpTNVUDY-IhzjCDygjD7fxIeXg1csa4Pe9qnzlyRVCzrot4pPv6Zh3Hv9dcwhtl-XRtgFhRmOQxMzlofxM1xXpvigw7MyskRxcWKgBQNT5PAf7PHUvO59mUYVD_j0YMLh3c2kVUe3PbLwU_Lj709Hux-ZAV7af9ESP9rl_K3Icq3_tIXR0vdjfXpYSZwj3zkOtu_yl9khB8gRWj4iPbsqmPpGkHwyosG4MLtTsFSEnOJMw&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"></div>
+<section class="testi">
+  <h2 class="sec-t">Cosa Dicono di Noi</h2>
+  <p class="sec-s">Recensioni reali da Google Maps</p>
+  <div class="tg"><div class="tc"><div class="stars">★★★★★</div><p>"Circa un anno fa ho scoperto, per caso, questo salone.
+Con mio grande piacere ho conosciuto Gianni che, fino ad oggi, si prende cura dei miei capelli. Erano sottilissimi e sfibrati, ad oggi invece con trattamenti, prodotti di qualità e il giusto taglio sono rinati.
+Ormai il mio p"</p><div class="name">— Nadia Gentile</div></div>
+<div class="tc"><div class="stars">★★★★★</div><p>"In vacanza ho deciso all’ultimo di farmi sistemare i capelli e, per puro caso, ho trovato questo salone… una vera sorpresa! Accoglienza fantastica, servizio impeccabile e risultato top! Se abitassi qui, verrei solo da voi 🥰🥰"</p><div class="name">— Lucia</div></div>
+<div class="tc"><div class="stars">★★★★★</div><p>"Il miglior parrucchiere che abbia mai visitato in Italia! Molto professionale e molto gentile. Vivo a Miami e stavo cercando di trovare un parrucchiere per asciugarmi i capelli prima del mio volo e onestamente fanno un lavoro migliore di qualsiasi parrucchiere a Miami. I miei cap"</p><div class="name">— Christina Cagol</div></div>
+</div>
+</section>
+<section class="orari">
+  <h2 class="sec-t">Orari di Apertura</h2>
+  <table>
+    <tr><td>Lunedì</td><td>Chiuso</td></tr>
+    <tr><td>Martedì</td><td>09:00 – 18:30</td></tr>
+    <tr><td>Mercoledì</td><td>09:00 – 18:30</td></tr>
+    <tr><td>Giovedì</td><td>09:00 – 18:30</td></tr>
+    <tr><td>Venerdì</td><td>09:00 – 19:00</td></tr>
+    <tr><td>Sabato</td><td>08:30 – 17:00</td></tr>
+    <tr><td>Domenica</td><td>Chiuso</td></tr>
+  </table>
+</section>
+<section class="faq">
+  <div class="faq-in">
+    <h2 class="sec-t">Domande Frequenti</h2>
+    <details><summary>Devo prenotare in anticipo?</summary><p>Consigliamo sempre di prenotare per garantire la disponibilità. Accettiamo anche clienti senza appuntamento quando possibile.</p></details>
+    <details><summary>Quanto dura un trattamento colore?</summary><p>Un colore completo richiede in media 2-3 ore. Per meches o balayage, prevedere 3-4 ore.</p></details>
+    <details><summary>Usate prodotti senza ammoniaca?</summary><p>Sì, offriamo sia colorazioni tradizionali che alternative senza ammoniaca per capelli sensibili.</p></details>
+    <details><summary>Fate acconciature per matrimoni?</summary><p>Assolutamente sì! Offriamo un servizio completo per sposa con prova acconciatura inclusa.</p></details>
+    <details><summary>Quali metodi di pagamento accettate?</summary><p>Accettiamo contanti, carte di credito/debito e pagamenti digitali (Apple Pay, Google Pay).</p></details>
+  </div>
+</section>
+<div id="map"></div>
+<script>
+var map=L.map('map').setView([44.4938111,11.3471308],15);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+L.marker([44.4938111,11.3471308]).addTo(map).bindPopup('<b>Étoile Salon</b><br>Str. Maggiore, 5').openPopup();
+</script>
+<section class="contatti">
+  <h2>Contattaci</h2>
+  <p style="margin-top:14px">Str. Maggiore, 5, 40125 Bologna</p>
+  <p><a href="tel:+39 051 351 1517">+39 051 351 1517</a></p>
+  <p style="margin-top:18px"><a href="https://wa.me/390513511517" target="_blank" style="background:var(--purple);color:#fff;padding:11px 26px;border-radius:2px;text-decoration:none;display:inline-block">Scrivici su WhatsApp</a></p>
+</section>
+<footer>
+  <p>© 2025 Étoile Salon · Str. Maggiore, 5, 40125 Bologna · <a onclick="document.getElementById('pm').classList.add('open')">Privacy Policy</a></p>
+</footer>
+<div id="pm" class="modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('pm').classList.remove('open')">Chiudi</button>
+    <h3>Privacy Policy</h3>
+    <p>Questo sito non raccoglie dati personali, non usa cookie di profilazione e non effettua tracking analytics.</p>
+    <p>Titolare: Étoile Salon, Str. Maggiore, 5, 40125 Bologna. Contatto: <a href="tel:+39 051 351 1517">+39 051 351 1517</a>.</p>
+    <p>Ultimo aggiornamento: maggio 2025.</p>
+  </div>
+</div>
+<a href="https://wa.me/390513511517" class="wa" target="_blank">&#x1F4AC;</a>
+</body></html>
