@@ -9,15 +9,15 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--purple:#c084fc;--dark:#1a1a1a;--light:#faf9f7}
+:root{--purple:#c084fc;--dark:#1a1a1a;--light:#faf9f7;--call-green:#1a5c2a;--wa-green:#25D366}
 body{font-family:'Inter',sans-serif;background:var(--light);color:var(--dark)}
 h1,h2,h3,h4{font-family:'Cormorant Garamond',serif}
 #buy-banner{position:fixed;top:0;left:0;width:100%;background:#000;color:#fff;z-index:9999;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 #buy-banner p{font-size:14px}
-#buy-banner a{background:#ff4d00;color:#fff;text-decoration:none;padding:8px 18px;border-radius:4px;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+#buy-banner a.stripe{background:#ff4d00;color:#fff;text-decoration:none;padding:8px 18px;border-radius:4px;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
 @media(max-width:600px){#buy-banner .dt{display:none}}
 @media(min-width:601px){#buy-banner .mob{display:none}}
-.hero{height:100vh;background:url('https://maps.googleapis.com/maps/api/place/photo?maxwidth=1920&photoreference=Ab43m-tDHS8QVVaY3OtwBFYUjOZXXOTp4TMCKNry5LUVmCGwvU4xPalqlgPVGkyW6CdRJbfQVI-rD8SQhKn6yLHwFolFtMPh_MU7Xci-z14NM-Mzc8WaOHIXxHxsl0EKVZTi1fsQkQPFOiJqZHyFd0KPlquaBo8gf5uLGkd19nTIlBg91OzOWwswDMxsgrCET6cfM4zOjoMA-0RNgGYLOfFXEruK6H_D78JC-lmvCv0Db0PGIefEOk6pweYSYrc_h2jWUmZZku900GJhzBG_yti6VdYfOdE29usfd3o2Un1RzikKoQ&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM') center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:44px}
+.hero{height:100vh;background:url('https://maps.googleapis.com/maps/api/place/photo?maxwidth=1920&photoreference=Ab43m-uuDmGfPr0Qq731GtoPG_LiSnLzP2W-hAv3IILI6WMEB3EKIhBXf4a7cp_bf22RdKnulMlv8FSwpHZIQvIQzQ-hiYyYlbotO0MaIpx1RRVzkL_yvYTbXT7esXDH7RAQ3vB9jIp1OuMnw5oU9yb0AH-CnIWxFtwnyn5LQG7TZYT1h5_AegW6JmnsVIYB0dfyn9vWIxsHIe88mbGULc928muGOUbTpnrtb91rf6Cann_2E3mtdMU3l3CfffjDfr6azj2SFpZpiawJd7kna9Ej0P-Vv-JGiaR-t2bwW1xpgsGvZw&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM') center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:44px}
 .hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.48)}
 .hero-c{position:relative;z-index:1;color:#fff;padding:0 20px}
 .hero-c h1{font-size:clamp(2.2rem,6vw,5rem);font-weight:300;letter-spacing:.04em}
@@ -49,14 +49,26 @@ h1,h2,h3,h4{font-family:'Cormorant Garamond',serif}
 .gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
 @media(max-width:600px){.gallery{grid-template-columns:repeat(2,1fr)}}
 .gallery img{width:100%;height:200px;object-fit:cover}
-.testi{background:var(--purple);padding:72px 5%;color:#fff}
-.testi .sec-t{color:#fff}
-.testi .sec-s{color:rgba(255,255,255,.8)}
-.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;max-width:1000px;margin:0 auto}
-.tc{background:rgba(255,255,255,.12);padding:26px;border-radius:3px}
-.tc p{font-style:italic;line-height:1.7;margin-bottom:14px;font-family:'Cormorant Garamond',serif;font-size:1.05rem}
-.tc .name{font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
-.tc .stars{color:#ffd700;margin-bottom:8px}
+.recensioni{background:var(--light);padding:72px 5%}
+.rec-inner{max-width:1100px;margin:0 auto}
+.rec-top{display:flex;align-items:flex-start;gap:40px;margin-bottom:40px;flex-wrap:wrap}
+.rec-score .big-num{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;line-height:1;color:var(--dark)}
+.rec-score .big-stars{font-size:1.4rem;color:#f59e0b;margin:4px 0}
+.rec-score .rec-count{font-size:.85rem;color:#666}
+.rec-divider{width:1px;background:#ddd;height:80px;margin:0 20px;align-self:center}
+.rec-title h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:300;line-height:1.2}
+.rec-track{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:700px){.rec-track{grid-template-columns:1fr}}
+.rev-card{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:24px;position:relative;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.rev-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rev-meta .rev-name{font-weight:600;font-size:.95rem}
+.rev-meta .rev-when{font-size:.8rem;color:#888;margin-top:2px}
+.rev-stars{font-size:1rem;color:#f59e0b;margin-bottom:10px}
+.rev-text{font-size:.9rem;line-height:1.65;color:#444;font-style:italic}
+.rev-g{position:absolute;bottom:16px;right:16px}
+.rec-nav{display:flex;gap:10px;margin-top:24px}
+.rec-nav button{width:40px;height:40px;border-radius:50%;border:1.5px solid #ccc;background:#fff;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.rec-nav button:hover{border-color:var(--purple)}
 .orari{background:#fff;padding:72px 5%}
 .orari table{width:100%;max-width:560px;border-collapse:collapse;margin:28px auto 0}
 .orari td{padding:13px 0;border-bottom:1px solid #eee;font-size:.92rem}
@@ -75,7 +87,12 @@ details p{color:#555;line-height:1.7;margin-top:12px;font-size:.92rem}
 .contatti a{color:var(--purple);text-decoration:none}
 footer{background:#111;color:#666;text-align:center;padding:22px;font-size:.78rem}
 footer a{color:#888;cursor:pointer}
-.wa{position:fixed;bottom:22px;right:22px;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:24px;box-shadow:0 4px 16px rgba(37,211,102,.4);z-index:8888}
+/* STICKY BUTTONS */
+.sticky-btn{position:fixed;bottom:22px;right:22px;width:auto;min-width:54px;height:54px;border-radius:28px;display:flex;align-items:center;gap:8px;padding:0 18px 0 14px;text-decoration:none;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:8888;color:#fff;transition:transform .2s}
+.sticky-btn:hover{transform:scale(1.05)}
+.sticky-btn span{white-space:nowrap}
+.sticky-call{background:var(--call-green)}
+.sticky-wa{background:var(--wa-green)}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999;align-items:center;justify-content:center}
 .modal.open{display:flex}
 .modal-box{background:#fff;padding:36px;max-width:580px;width:90%;max-height:80vh;overflow-y:auto;border-radius:3px}
@@ -88,14 +105,14 @@ footer a{color:#888;cursor:pointer}
 <div id="buy-banner">
   <p class="dt">Ti piace questo sito? Il tuo potrebbe essere identico — online in 5 giorni per €99</p>
   <p class="mob">Vuoi un sito così? €99</p>
-  <a href="https://buy.stripe.com/8x25kC7mo39M0bN1Mv1B601" target="_blank">Inizia ora →</a>
+  <a href="https://buy.stripe.com/8x25kC7mo39M0bN1Mv1B601" target="_blank" class="stripe">Inizia ora →</a>
 </div>
 <section class="hero">
   <div class="hero-c">
     <h1>Étoile Salon</h1>
     <p>Str. Maggiore, 5 · Bologna</p>
     <div class="stars">★★★★½ 4.8 · 95 recensioni Google</div>
-    <a href="https://wa.me/390513511517" class="cta" target="_blank">Prenota su WhatsApp</a>
+    <a href="tel:+39 051 351 1517" class="cta">📞 Chiama ora</a>
   </div>
 </section>
 <div class="numeri">
@@ -119,9 +136,9 @@ footer a{color:#888;cursor:pointer}
 <section class="about">
   <div class="about-in">
     <div class="about-imgs">
-      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-tDHS8QVVaY3OtwBFYUjOZXXOTp4TMCKNry5LUVmCGwvU4xPalqlgPVGkyW6CdRJbfQVI-rD8SQhKn6yLHwFolFtMPh_MU7Xci-z14NM-Mzc8WaOHIXxHxsl0EKVZTi1fsQkQPFOiJqZHyFd0KPlquaBo8gf5uLGkd19nTIlBg91OzOWwswDMxsgrCET6cfM4zOjoMA-0RNgGYLOfFXEruK6H_D78JC-lmvCv0Db0PGIefEOk6pweYSYrc_h2jWUmZZku900GJhzBG_yti6VdYfOdE29usfd3o2Un1RzikKoQ&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Salone" loading="lazy">
-      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-vjITYed6JDOguI7wbcw8OebHICSssWPFHrbrcOTRcWBRRt3LZgSTzdhR4z9GzNDPOF6JsJNJ6ucCELQyld0mA6Zr8_5FWioqXJIsyxaiZ8ZXNo6gT5gTrcnXfWo2yzhgC6uSXAEVTDapmiXoJ5eg8p7idN2YcsdVlu-oj7GFN0RpZwaVEKcSLfPnF-_HnpuZzLjbTugwsLjo69poJOtxHAZNLgTMGxJ-8ghMMF-TXcccb6bFdPfJb-LavgHkeFmOVtdwgWxMO_NEAZAIq1mYyjpRnxuKjKP8vRYkFuTjrMVA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Team" loading="lazy">
-      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-sa7m4a7HhkqK3WBU667F6TzhhSaQyI3rY_DONOFt7CNsIFmZOjy5Xsw5gbLlpRMqmwYCeTJntLC4ZQ4-CDRhPEaHnfwtxkNYaPwbaCBUgNA63KsLr05-Iqh6JcYwuaJDqgxWSpKGSMa88avqeZVC0jltdCIqJ-rlNbvhc8gJ0GxLvB9X_YoVJnnTsvLav04plFi_jJVdah7W-e9mvDsa2gqKgJXzOKwwh0ONHN0zIUDK1klD5IzRJocNUaEEo7sP0gAminoE4PTOBnnjgmkiKzF_2XQ7rklwx4Ni2ndcxJMzao6yRQMwVUNG3f2gkO6fca6KKs7a11rhTnvCiiqfDwAs8rGOBghOSKlT40yEmFKdYWHV6HyO0hpIsMM-ITBOJLklUiAyj7-ZYj6ek9MoPNPKCCzruZnIgXhtA6e3-E5JWU6e6-ps6ImqigtIrY&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Lavoro" loading="lazy">
+      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-uuDmGfPr0Qq731GtoPG_LiSnLzP2W-hAv3IILI6WMEB3EKIhBXf4a7cp_bf22RdKnulMlv8FSwpHZIQvIQzQ-hiYyYlbotO0MaIpx1RRVzkL_yvYTbXT7esXDH7RAQ3vB9jIp1OuMnw5oU9yb0AH-CnIWxFtwnyn5LQG7TZYT1h5_AegW6JmnsVIYB0dfyn9vWIxsHIe88mbGULc928muGOUbTpnrtb91rf6Cann_2E3mtdMU3l3CfffjDfr6azj2SFpZpiawJd7kna9Ej0P-Vv-JGiaR-t2bwW1xpgsGvZw&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Salone" loading="lazy">
+      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-secHtAGowG3GY7X77XruYun_CV8t0TXo2YR0_yQlbvdDYoQAP5Z5NrocRsHHEkwEm6EwoPFs_bBZzGJQXv0c5CRKnzzJWDgV-uSQ7QTvWFYTSWSusw7GJGkYmf0evUEJ_iLLmfJAqdh6T17k0IebX8tflRvdyrNNvasr94vdefiB5zWYypPnbpCzI4eJ-OOe8UKPpljQj_yW9F2qaq01yNoM-YSaGimo5WQBROrBJ_7tlAuoZNxaLy8J7Auih_ncRO_NKu02dRzNZAcif6QaNPETU1gD7V1QiW_C_2wDNLjQ&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Team" loading="lazy">
+      <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=Ab43m-vBDD1YH_DDF8Z_oJQGGat3AvrPkM57IwI80GSq6Aizpy66xObEaOdO--Sq7Xccs3bAuwMbm60ejRTaT5itBiGtszfOwkL1uWxNpp6zxzJhvJA1ZD-Kr1FllwLsSTBmhlhn4VvN9TZpL-ZFd5G-j7KKUzikwqmrNXIl258ipBL06GS4eOsQ1q0bB4qFPx_eUgUkW2uOJTZX7WZHJBEnIQWBhJGdxas7o3nEl6oLepWK9SwzgZTGmZ1i7B_WOhFmpF8KSHQshedHqsvp-IJIufMsdfRBcGupFIz0tD0QBYc7uQdHMjb410rgmO9y4vzM5s2Q9UZJdeJc27e78WlWpsAS_ap8kjJJPGNAfprtxHgwrL9JXv1jOT4e-zRZS_Cb5C62Hp2R1fqxRFV5dKf9QcSfyED_-BY6yRaLN6kEbNWbfUSBX5wo7WT5xnzdgaJ5&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="Lavoro" loading="lazy">
     </div>
     <div class="about-t">
       <h2>Chi Siamo</h2>
@@ -131,17 +148,67 @@ footer a{color:#888;cursor:pointer}
     </div>
   </div>
 </section>
-<div class="gallery"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-vjITYed6JDOguI7wbcw8OebHICSssWPFHrbrcOTRcWBRRt3LZgSTzdhR4z9GzNDPOF6JsJNJ6ucCELQyld0mA6Zr8_5FWioqXJIsyxaiZ8ZXNo6gT5gTrcnXfWo2yzhgC6uSXAEVTDapmiXoJ5eg8p7idN2YcsdVlu-oj7GFN0RpZwaVEKcSLfPnF-_HnpuZzLjbTugwsLjo69poJOtxHAZNLgTMGxJ-8ghMMF-TXcccb6bFdPfJb-LavgHkeFmOVtdwgWxMO_NEAZAIq1mYyjpRnxuKjKP8vRYkFuTjrMVA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-sa7m4a7HhkqK3WBU667F6TzhhSaQyI3rY_DONOFt7CNsIFmZOjy5Xsw5gbLlpRMqmwYCeTJntLC4ZQ4-CDRhPEaHnfwtxkNYaPwbaCBUgNA63KsLr05-Iqh6JcYwuaJDqgxWSpKGSMa88avqeZVC0jltdCIqJ-rlNbvhc8gJ0GxLvB9X_YoVJnnTsvLav04plFi_jJVdah7W-e9mvDsa2gqKgJXzOKwwh0ONHN0zIUDK1klD5IzRJocNUaEEo7sP0gAminoE4PTOBnnjgmkiKzF_2XQ7rklwx4Ni2ndcxJMzao6yRQMwVUNG3f2gkO6fca6KKs7a11rhTnvCiiqfDwAs8rGOBghOSKlT40yEmFKdYWHV6HyO0hpIsMM-ITBOJLklUiAyj7-ZYj6ek9MoPNPKCCzruZnIgXhtA6e3-E5JWU6e6-ps6ImqigtIrY&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-uHxKkE5p2guMG4vr29ZtETmlU5BrNgD1bCUyWOSqvSCXltJkJzlf8-CXWY6NhvbhwROpIljWzPnmkPTwWszWc7m0IfxOrL76upLCiWTfvsvXttIrg93m24-Hd7jQjmbLuI9r4m1Jm3DC88hIdRkeg5HaNyMbaFVlBB0z0116V0Jip3VZy9Dr0p5811lfoenhDP5sBjkzWde_bZDV2_0nbTzKBexziMzc57vBQJ03zm1tT_3A37d9F-oe6xYLiVQ-7Hppl8Tq9-KMRzd6IItukuvGd2HNE96NQ0MmCY9uj86Q&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-s7_6Q5rGYPHxnDerLrx0oQtWgjDNOXOszYJ6L8hljz2RPfEuUJDxEVJtikE4Rw61CiqfYG6G0K3DXZM4Z80Dc5e2l3bLO_RvjfUfo_sfgAMBB4Wa9Kz-UIh35RxvC3ATQXTHLFTk6_zij_0moWSsyd55pBm3pfaKHKKDO-pXRGz0ajGDKUhBVnpA_EzO7lefE3FAosuP8KXMX03P8EGdv5RYZMZG0VAz9uww1rIY6LWHOaSMZV7lT6Aqru2Rl3tCw3Z21TpZzBC9UY32Jb7A1c5g_WUXdM9KUxvxO3H4k2vA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-vGOXuAc45-aTjTr6Bhv6ixse9Ej1Eah1McZc-NB9UKqur3BDxNu7GLeHM0s3syGpTNVUDY-IhzjCDygjD7fxIeXg1csa4Pe9qnzlyRVCzrot4pPv6Zh3Hv9dcwhtl-XRtgFhRmOQxMzlofxM1xXpvigw7MyskRxcWKgBQNT5PAf7PHUvO59mUYVD_j0YMLh3c2kVUe3PbLwU_Lj709Hux-ZAV7af9ESP9rl_K3Icq3_tIXR0vdjfXpYSZwj3zkOtu_yl9khB8gRWj4iPbsqmPpGkHwyosG4MLtTsFSEnOJMw&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"></div>
-<section class="testi">
-  <h2 class="sec-t">Cosa Dicono di Noi</h2>
-  <p class="sec-s">Recensioni reali da Google Maps</p>
-  <div class="tg"><div class="tc"><div class="stars">★★★★★</div><p>"Circa un anno fa ho scoperto, per caso, questo salone.
+<div class="gallery"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-secHtAGowG3GY7X77XruYun_CV8t0TXo2YR0_yQlbvdDYoQAP5Z5NrocRsHHEkwEm6EwoPFs_bBZzGJQXv0c5CRKnzzJWDgV-uSQ7QTvWFYTSWSusw7GJGkYmf0evUEJ_iLLmfJAqdh6T17k0IebX8tflRvdyrNNvasr94vdefiB5zWYypPnbpCzI4eJ-OOe8UKPpljQj_yW9F2qaq01yNoM-YSaGimo5WQBROrBJ_7tlAuoZNxaLy8J7Auih_ncRO_NKu02dRzNZAcif6QaNPETU1gD7V1QiW_C_2wDNLjQ&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-vBDD1YH_DDF8Z_oJQGGat3AvrPkM57IwI80GSq6Aizpy66xObEaOdO--Sq7Xccs3bAuwMbm60ejRTaT5itBiGtszfOwkL1uWxNpp6zxzJhvJA1ZD-Kr1FllwLsSTBmhlhn4VvN9TZpL-ZFd5G-j7KKUzikwqmrNXIl258ipBL06GS4eOsQ1q0bB4qFPx_eUgUkW2uOJTZX7WZHJBEnIQWBhJGdxas7o3nEl6oLepWK9SwzgZTGmZ1i7B_WOhFmpF8KSHQshedHqsvp-IJIufMsdfRBcGupFIz0tD0QBYc7uQdHMjb410rgmO9y4vzM5s2Q9UZJdeJc27e78WlWpsAS_ap8kjJJPGNAfprtxHgwrL9JXv1jOT4e-zRZS_Cb5C62Hp2R1fqxRFV5dKf9QcSfyED_-BY6yRaLN6kEbNWbfUSBX5wo7WT5xnzdgaJ5&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-srkMB-GWAP4X0xD9TvjWmgupLW12OFSh1Mz7L46YW5LJzOzyA6HK62N_-Hgy_fW-zAcyX_Y00bApHquwJsdHmVpCs5hNqsTNODjjNxtdKYXTVKl9uGDTH2CK1EVfniyPx655nTxYI4HtcJ_h9nelmsiLifOhjYbdVnD9KqTzqMXh2BFRj6bfLBzOYIGQc1i1X7guyUP5i_Aau1jKytMZe0KE9rdl_KUK21VqYq3WDFiAZILu4p9_RlF_5AuDwFuSzGPc9g5kCm_FdyAoRKa7CosuJzcqp7p6f0oxJ_ZFAebA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-v7HY_Sy5_1TPswBkj7HB2_fqaQx9pM-8d-FEJkqz18Alnx0Rw8JTlp7cJ7nRwG506LP-k-XyQyaB8zT2zD6iiy3wSbEOoY8NXuApsyoX7UIISOvJLKsUQfT4H3e2Ll1E0lI4uq_urrHGHtCbLr6dscKCylROk7kmYXATyR-Ew7qQGaZ2ZGKXmrt7ow8f25If4-KPOjrtgswgxCXG2H2GRhJDobOln28aNFJgyTaBKZpVOrYaq3-2YW7feZMIEzGR68HdAl9PxLqpV3VHvGXrRXMEXRIGUzRkoGZwZclMuIuw&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=Ab43m-vERVge2DBais9WivEqzomMjK7O569rlxr-3vp0banglmhjKkiWigiuuiMFZ42GZZYJzf93I0p3UvET6UaNCU7lfZ4-nTQSz3fD8QDZ16CmMFZcxUc0qZkhOPLfZWESEoG2wT-TS-S9gjtWn78Ne6JexrcQdDiCcyRGBK137UcojyKn2YsU1s4Zj_FylKqBWnzTBx-N1kWSCQQhTfcjN_7x5fOC3p3APRMt9DPIvCTcO93mJOX_rhd8QFsZ3xc67V5Pe8KNQu4T_jQcHKSkI4mxis1wCrWrpzQs6c-fL3rFcA&key=AIzaSyCYXbAb5oATfgJRzDY7v7_wNhQ6F7PltAM" alt="" loading="lazy"></div>
+<section class="recensioni">
+  <div class="rec-inner">
+    <div class="rec-top">
+      <div class="rec-score">
+        <div class="big-num">4.8</div>
+        <div class="big-stars">★★★★☆</div>
+        <div class="rec-count">95 recensioni Google</div>
+      </div>
+      <div class="rec-divider"></div>
+      <div class="rec-title"><h2>Cosa dicono<br>i nostri clienti</h2></div>
+    </div>
+    <div class="rec-track" id="rec-track"><div class="rev-card">
+  <div class="rev-header"><img src="https://lh3.googleusercontent.com/a-/ALV-UjW5yujCT4vKv6lc9H17eOtqLFN1gOgygSg8vTMueIVPdRtZReE2=s128-c0x00000000-cc-rp-mo-ba3" alt="NG" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"><div class="rev-meta"><div class="rev-name">Nadia Gentile</div><div class="rev-when">2 anni fa</div></div></div>
+  <div class="rev-stars">★★★★★</div>
+  <p class="rev-text">"Circa un anno fa ho scoperto, per caso, questo salone.
 Con mio grande piacere ho conosciuto Gianni che, fino ad oggi, si prende cura dei miei capelli. Erano sottilissimi e sfibrati, ad oggi invece con trattamenti, prodotti di qualità e il giusto taglio sono rinati.
-Ormai il mio p"</p><div class="name">— Nadia Gentile</div></div>
-<div class="tc"><div class="stars">★★★★★</div><p>"In vacanza ho deciso all’ultimo di farmi sistemare i capelli e, per puro caso, ho trovato questo salone… una vera sorpresa! Accoglienza fantastica, servizio impeccabile e risultato top! Se abitassi qui, verrei solo da voi 🥰🥰"</p><div class="name">— Lucia</div></div>
-<div class="tc"><div class="stars">★★★★★</div><p>"Il miglior parrucchiere che abbia mai visitato in Italia! Molto professionale e molto gentile. Vivo a Miami e stavo cercando di trovare un parrucchiere per asciugarmi i capelli prima del mio volo e onestamente fanno un lavoro migliore di qualsiasi parrucchiere a Miami. I miei cap"</p><div class="name">— Christina Cagol</div></div>
+Ormai il mio posto preferito per l"</p>
+  <div class="rev-g"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></div>
 </div>
+<div class="rev-card">
+  <div class="rev-header"><img src="https://lh3.googleusercontent.com/a/ACg8ocKP1peYnBFpGrP0eV7zdSZCD2q1_IEcDTJbarumzjRDYXyY2g=s128-c0x00000000-cc-rp-mo" alt="L" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"><div class="rev-meta"><div class="rev-name">Lucia</div><div class="rev-when">6 mesi fa</div></div></div>
+  <div class="rev-stars">★★★★★</div>
+  <p class="rev-text">"In vacanza ho deciso all’ultimo di farmi sistemare i capelli e, per puro caso, ho trovato questo salone… una vera sorpresa! Accoglienza fantastica, servizio impeccabile e risultato top! Se abitassi qui, verrei solo da voi 🥰🥰"</p>
+  <div class="rev-g"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></div>
+</div>
+<div class="rev-card">
+  <div class="rev-header"><img src="https://lh3.googleusercontent.com/a-/ALV-UjWIHDgOcYG7eSmppRDq04KDQDmAYTvuQO6ToL5lpOgxpsjqwmwH=s128-c0x00000000-cc-rp-mo" alt="CC" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"><div class="rev-meta"><div class="rev-name">Christina Cagol</div><div class="rev-when">4 anni fa</div></div></div>
+  <div class="rev-stars">★★★★★</div>
+  <p class="rev-text">"Il miglior parrucchiere che abbia mai visitato in Italia! Molto professionale e molto gentile. Vivo a Miami e stavo cercando di trovare un parrucchiere per asciugarmi i capelli prima del mio volo e onestamente fanno un lavoro migliore di qualsiasi parrucchiere a Miami. I miei capelli erano completam"</p>
+  <div class="rev-g"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></div>
+</div>
+<div class="rev-card">
+  <div class="rev-header"><img src="https://lh3.googleusercontent.com/a-/ALV-UjUEskh6fPI3fjT2KtQYCWCELFWB3qJ7r4wNS7IVSSa-lzrWDSfI=s128-c0x00000000-cc-rp-mo" alt="GP" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"><div class="rev-meta"><div class="rev-name">Giulia Perrone</div><div class="rev-when">1 anno fa</div></div></div>
+  <div class="rev-stars">★★★★★</div>
+  <p class="rev-text">"Ho adorato tantissimo!
+Oggi sono andata in salone per la prima volta,  che dire… mi sono sentita coccolata e per la prima volta ascoltata e capita, insomma sono uscita felice, senza il pensiero di dover tornare a casa e lavarmi i capelli perché la piega non era fatta bene.
+Ho eseguito un trattamento"</p>
+  <div class="rev-g"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></div>
+</div>
+<div class="rev-card">
+  <div class="rev-header"><img src="https://lh3.googleusercontent.com/a-/ALV-UjX8FLtyHZrj9kbl3-9hVuKDRr5zR0aKFndqeHnw8VlnY091_7M=s128-c0x00000000-cc-rp-mo" alt="AZ" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"><div class="rev-meta"><div class="rev-name">Aglaja Zefferino</div><div class="rev-when">11 mesi fa</div></div></div>
+  <div class="rev-stars">★★★★★</div>
+  <p class="rev-text">"Mi sono recata in questo salone per una piega e mi sono sentita coccolata.
+Ilaria è stata gentilissima nell’ascoltare le mie richieste e nell’esaudirle e in pochissimi minuti ha realizzato una piega impeccabile consigliandomi anche alcuni prodotti specifici per la mia tipologia di capello. Sono supe"</p>
+  <div class="rev-g"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></div>
+</div>
+</div>
+    <div class="rec-nav">
+      <button onclick="slide(-1)">←</button>
+      <button onclick="slide(1)">→</button>
+    </div>
+  </div>
 </section>
+<script>
+var cards=document.querySelectorAll('.rev-card'),idx=0,pp=window.innerWidth<700?1:2;
+function show(){cards.forEach(function(c,i){c.style.display=(i>=idx&&i<idx+pp)?'block':'none'})}
+function slide(d){idx=Math.max(0,Math.min(idx+d,cards.length-pp));show()}
+show();
+window.addEventListener('resize',function(){pp=window.innerWidth<700?1:2;show()});
+</script>
 <section class="orari">
   <h2 class="sec-t">Orari di Apertura</h2>
   <table>
@@ -157,11 +224,11 @@ Ormai il mio p"</p><div class="name">— Nadia Gentile</div></div>
 <section class="faq">
   <div class="faq-in">
     <h2 class="sec-t">Domande Frequenti</h2>
-    <details><summary>Devo prenotare in anticipo?</summary><p>Consigliamo sempre di prenotare per garantire la disponibilità. Accettiamo anche clienti senza appuntamento quando possibile.</p></details>
-    <details><summary>Quanto dura un trattamento colore?</summary><p>Un colore completo richiede in media 2-3 ore. Per meches o balayage, prevedere 3-4 ore.</p></details>
-    <details><summary>Usate prodotti senza ammoniaca?</summary><p>Sì, offriamo sia colorazioni tradizionali che alternative senza ammoniaca per capelli sensibili.</p></details>
-    <details><summary>Fate acconciature per matrimoni?</summary><p>Assolutamente sì! Offriamo un servizio completo per sposa con prova acconciatura inclusa.</p></details>
-    <details><summary>Quali metodi di pagamento accettate?</summary><p>Accettiamo contanti, carte di credito/debito e pagamenti digitali (Apple Pay, Google Pay).</p></details>
+    <details><summary>Devo prenotare in anticipo?</summary><p>Consigliamo sempre di prenotare. Accettiamo anche senza appuntamento quando possibile.</p></details>
+    <details><summary>Quanto dura un trattamento colore?</summary><p>Un colore completo richiede 2-3 ore. Per meches o balayage, 3-4 ore.</p></details>
+    <details><summary>Usate prodotti senza ammoniaca?</summary><p>Sì, offriamo colorazioni tradizionali e alternative senza ammoniaca.</p></details>
+    <details><summary>Fate acconciature per matrimoni?</summary><p>Sì! Servizio completo per sposa con prova inclusa.</p></details>
+    <details><summary>Quali metodi di pagamento accettate?</summary><p>Contanti, carte e pagamenti digitali (Apple Pay, Google Pay).</p></details>
   </div>
 </section>
 <div id="map"></div>
@@ -173,8 +240,7 @@ L.marker([44.4938111,11.3471308]).addTo(map).bindPopup('<b>Étoile Salon</b><br>
 <section class="contatti">
   <h2>Contattaci</h2>
   <p style="margin-top:14px">Str. Maggiore, 5, 40125 Bologna</p>
-  <p><a href="tel:+39 051 351 1517">+39 051 351 1517</a></p>
-  <p style="margin-top:18px"><a href="https://wa.me/390513511517" target="_blank" style="background:var(--purple);color:#fff;padding:11px 26px;border-radius:2px;text-decoration:none;display:inline-block">Scrivici su WhatsApp</a></p>
+  <p><a href="tel:+39 051 351 1517" style="color:var(--purple)">+39 051 351 1517</a></p>
 </section>
 <footer>
   <p>© 2025 Étoile Salon · Str. Maggiore, 5, 40125 Bologna · <a onclick="document.getElementById('pm').classList.add('open')">Privacy Policy</a></p>
@@ -183,10 +249,13 @@ L.marker([44.4938111,11.3471308]).addTo(map).bindPopup('<b>Étoile Salon</b><br>
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('pm').classList.remove('open')">Chiudi</button>
     <h3>Privacy Policy</h3>
-    <p>Questo sito non raccoglie dati personali, non usa cookie di profilazione e non effettua tracking analytics.</p>
-    <p>Titolare: Étoile Salon, Str. Maggiore, 5, 40125 Bologna. Contatto: <a href="tel:+39 051 351 1517">+39 051 351 1517</a>.</p>
+    <p>Questo sito non raccoglie dati personali, non usa cookie di profilazione e non effettua tracking.</p>
+    <p>Titolare: Étoile Salon, Str. Maggiore, 5, 40125 Bologna. Contatto: +39 051 351 1517</p>
     <p>Ultimo aggiornamento: maggio 2025.</p>
   </div>
 </div>
-<a href="https://wa.me/390513511517" class="wa" target="_blank">&#x1F4AC;</a>
+<a href="tel:+39 051 351 1517" class="sticky-btn sticky-call" title="Chiama ora">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+  <span>Chiama</span>
+</a>
 </body></html>
